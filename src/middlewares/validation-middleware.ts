@@ -12,7 +12,18 @@ export function validateParams<T>(schema: ObjectSchema<T>): ValidationMiddleware
 }
 
 export function validateQuery<T>(schema: ObjectSchema<T>): ValidationMiddleware {
-  return validate(schema, 'query');
+  // return validate(schema, 'query');
+  return (req: Request, res: Response, next: NextFunction) => {
+    const { error } = schema.validate(req.query, {
+      abortEarly: false,
+    });
+
+    if (!error) {
+      next();
+    } else {
+      res.status(httpStatus.NO_CONTENT).send(invalidDataError(error.details.map((d) => d.message)));
+    }
+  };
 }
 
 function validate(schema: ObjectSchema, type: 'body' | 'params' | 'query') {
