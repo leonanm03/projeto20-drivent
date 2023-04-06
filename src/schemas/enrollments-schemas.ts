@@ -37,7 +37,7 @@ function joiCpfValidation(value: string, helpers: Joi.CustomHelpers<string>) {
   return value;
 }
 
-function JoiCepValidation(value: string, helpers: Joi.CustomHelpers<string>) {
+export function JoiCepValidation(value: string, helpers: Joi.CustomHelpers<string>) {
   if (!value) return value;
 
   if (!isValidCEP(value)) {
@@ -56,3 +56,7 @@ function joiMobilePhoneValidation(value: string, helpers: Joi.CustomHelpers<stri
 
   return value;
 }
+
+export const searchEnrollmentSchema = Joi.object({
+  cep: Joi.string().length(8).custom(JoiCepValidation).required(),
+});
