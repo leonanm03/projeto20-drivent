@@ -9,6 +9,8 @@ import { ViaCEPAddress } from '@/protocols';
 async function getAddressFromCEP(cep: string): Promise<ViaCEPAddress> {
   const result = await request.get(`${process.env.VIA_CEP_API}/${cep}/json/`);
 
+  if (result.status === 400 || result.data.erro) throw notFoundError();
+
   const address: ViaCEPAddress = {
     logradouro: result.data.logradouro,
     bairro: result.data.bairro,
@@ -16,10 +18,6 @@ async function getAddressFromCEP(cep: string): Promise<ViaCEPAddress> {
     cidade: result.data.localidade,
     uf: result.data.uf,
   };
-
-  if (result.status === 400 || result.data.erro) {
-    throw notFoundError();
-  }
 
   return address;
 }
