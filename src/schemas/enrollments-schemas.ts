@@ -57,6 +57,6 @@ function joiMobilePhoneValidation(value: string, helpers: Joi.CustomHelpers<stri
   return value;
 }
 
-export const searchEnrollmentSchema = Joi.object({
-  cep: Joi.string().length(8).custom(JoiCepValidation).required(),
-});
+// export const searchEnrollmentSchema = Joi.object({
+//   cep: Joi.string().length(8).custom(JoiCepValidation).required(),
+// });

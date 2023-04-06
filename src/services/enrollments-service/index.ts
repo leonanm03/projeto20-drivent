@@ -17,7 +17,7 @@ async function getAddressFromCEP(cep: string): Promise<ViaCEPAddress> {
     uf: result.data.uf,
   };
 
-  if (!result.data) {
+  if (result.status === 400 || result.data.erro) {
     throw notFoundError();
   }
 
