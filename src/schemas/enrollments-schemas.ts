@@ -1,5 +1,5 @@
-import Joi from 'joi';
 import { getStates, isValidCEP, isValidCPF, isValidMobilePhone } from '@brazilian-utils/brazilian-utils';
+import Joi from 'joi';
 import { CreateOrUpdateEnrollmentWithAddress } from '@/services/enrollments-service';
 
 const cpfValidationSchema = Joi.string().length(11).custom(joiCpfValidation).required();
@@ -8,7 +8,7 @@ const cepValidationSchema = Joi.string().length(9).custom(JoiCepValidation).requ
 
 const mobilePhoneValidationSchema = Joi.string().min(14).max(15).custom(joiMobilePhoneValidation).required();
 
-export const createOrUpdateEnrollmentSchema = Joi.object<CreateOrUpdateEnrollmentWithAddress>({
+export const createEnrollmentSchema = Joi.object<CreateOrUpdateEnrollmentWithAddress>({
   name: Joi.string().min(3).required(),
   cpf: cpfValidationSchema,
   birthday: Joi.string().isoDate().required(),
@@ -37,7 +37,7 @@ function joiCpfValidation(value: string, helpers: Joi.CustomHelpers<string>) {
   return value;
 }
 
-export function JoiCepValidation(value: string, helpers: Joi.CustomHelpers<string>) {
+function JoiCepValidation(value: string, helpers: Joi.CustomHelpers<string>) {
   if (!value) return value;
 
   if (!isValidCEP(value)) {
@@ -56,7 +56,3 @@ function joiMobilePhoneValidation(value: string, helpers: Joi.CustomHelpers<stri
 
   return value;
 }
-
-// export const searchEnrollmentSchema = Joi.object({
-//   cep: Joi.string().length(8).custom(JoiCepValidation).required(),
-// });
