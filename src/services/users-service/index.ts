@@ -33,9 +33,9 @@ async function canEnrollOrFail() {
 
 export type CreateUserParams = Pick<User, 'email' | 'password'>;
 
-const userService = {
+const usersService = {
   createUser,
 };
 
 export * from './errors';
-export default userService;
+export default usersService;
