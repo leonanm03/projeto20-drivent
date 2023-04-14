@@ -1,4 +1,4 @@
-import { Ticket, TicketType } from '@prisma/client';
+import { TicketType } from '@prisma/client';
 import { prisma } from '@/config';
 
 async function findMany(): Promise<TicketType[]> {
@@ -16,6 +16,19 @@ async function findTickets(enrollmentId: number) {
   });
 }
 
-const ticketsRepository = { findMany, findTickets };
+async function createTicket(enrollmentId: number, ticketTypeId: number) {
+  return prisma.ticket.create({
+    data: {
+      enrollmentId,
+      ticketTypeId,
+      status: 'RESERVED',
+    },
+    include: {
+      TicketType: true,
+    },
+  });
+}
+
+const ticketsRepository = { findMany, findTickets, createTicket };
 
 export default ticketsRepository;

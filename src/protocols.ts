@@ -1,3 +1,5 @@
+import { Ticket } from '@prisma/client';
+
 export type ApplicationError = {
   name: string;
   message: string;
@@ -38,12 +40,4 @@ export type TicketType = {
   updatedAt: Date;
 };
 
-export type Ticket = {
-  id: number;
-  status: 'RESERVED' | 'PAID';
-  ticketTypeId: number;
-  enrollmentId: number;
-  TicketType: TicketType;
-  createdAt: Date;
-  updatedAt: Date;
-};
+export type ticketTypeIdInput = Pick<Ticket, 'ticketTypeId'>;
