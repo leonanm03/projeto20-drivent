@@ -1,4 +1,4 @@
-import { TicketType } from '@prisma/client';
+import { Ticket, TicketType } from '@prisma/client';
 import { prisma } from '@/config';
 
 async function findMany(): Promise<TicketType[]> {
@@ -29,6 +29,14 @@ async function createTicket(enrollmentId: number, ticketTypeId: number) {
   });
 }
 
-const ticketsRepository = { findMany, findTickets, createTicket };
+async function findTicketById(id: number): Promise<Ticket> {
+  return prisma.ticket.findUnique({
+    where: {
+      id,
+    },
+  });
+}
+
+const ticketsRepository = { findMany, findTickets, createTicket, findTicketById };
 
 export default ticketsRepository;

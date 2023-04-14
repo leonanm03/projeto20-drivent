@@ -7,7 +7,7 @@ export async function getPayment(req: AuthenticatedRequest, res: Response, next:
   const { ticketId } = req.query as { ticketId: string };
 
   try {
-    const payment = await paymentsService.findFirst(parseInt(ticketId));
+    const payment = await paymentsService.getPayment(parseInt(ticketId));
     return res.status(httpStatus.OK).send(payment);
   } catch (error) {
     next(error);

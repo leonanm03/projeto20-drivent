@@ -1,13 +1,22 @@
 import { prisma } from '@/config';
 
-async function findFirst(ticketId: number) {
-  return prisma.ticketType.findFirst({
+async function paymentTicketOwnerCheck(ticketId: number) {
+  return prisma.payment.findFirst({
     where: {
-      id: ticketId,
+      ticketId,
+    },
+    select: { Ticket: { select: { Enrollment: true } } },
+  });
+}
+
+async function findFirst(ticketId: number) {
+  return prisma.payment.findFirst({
+    where: {
+      ticketId,
     },
   });
 }
 
-const paymentsRepository = { findFirst };
+const paymentsRepository = { findFirst, paymentTicketOwnerCheck };
 
 export default paymentsRepository;
