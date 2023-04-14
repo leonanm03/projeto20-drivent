@@ -11,3 +11,31 @@ export async function getTypes(req: AuthenticatedRequest, res: Response, next: N
     next(error);
   }
 }
+
+export async function getTickets(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  const { userId } = req as { userId: number };
+
+  try {
+    const tickets = await ticketsService.getTickets(userId);
+    return res.status(httpStatus.OK).send(tickets);
+  } catch (error) {
+    if (error.name === 'NotFoundError') {
+      return res.status(httpStatus.NOT_FOUND).send(error.message);
+    }
+    next(error);
+  }
+}
+
+// export async function createTicket(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+// const { userId } = req as { userId: number };
+// const { ticketTypeId } = req.body as { ticketTypeId: number };
+// try{
+//   const ticket = await ticketsService.createTicket(userId, ticketTypeId);
+//   return res.status(httpStatus.OK).send(ticket);
+// }
+// catch(error){
+//   if (error.name === 'NotFoundError') {
+//     return res.status(httpStatus.NOT_FOUND).send(error.message);
+//   }
+//   next(error);
+// }}
