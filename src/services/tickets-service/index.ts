@@ -1,4 +1,4 @@
-import { TicketType } from '@prisma/client';
+import { Ticket, TicketType } from '@prisma/client';
 import { notFoundError } from '@/errors';
 import ticketsRepository from '@/repositories/tickets-repository';
 import enrollmentRepository from '@/repositories/enrollment-repository';
@@ -38,6 +38,8 @@ export async function createTicket(userId: number, ticketTypeId: number) {
 
   return ticket;
 }
+
+export type ticketTypeIdInput = Pick<Ticket, 'ticketTypeId'>;
 
 const ticketsService = { getTypes, getTickets, createTicket };
 

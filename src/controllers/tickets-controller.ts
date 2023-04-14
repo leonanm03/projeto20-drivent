@@ -19,9 +19,6 @@ export async function getTickets(req: AuthenticatedRequest, res: Response, next:
     const tickets = await ticketsService.getTickets(userId);
     return res.status(httpStatus.OK).send(tickets);
   } catch (error) {
-    if (error.name === 'NotFoundError') {
-      return res.status(httpStatus.NOT_FOUND).send(error.message);
-    }
     next(error);
   }
 }
