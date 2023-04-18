@@ -3,7 +3,7 @@ import { notFoundError } from '@/errors';
 import ticketsRepository from '@/repositories/tickets-repository';
 import enrollmentRepository from '@/repositories/enrollment-repository';
 
-export async function getTypes(): Promise<TicketType[]> {
+async function getTypes(): Promise<TicketType[]> {
   const types = await ticketsRepository.findMany();
 
   if (!types) {
@@ -13,7 +13,7 @@ export async function getTypes(): Promise<TicketType[]> {
   return types;
 }
 
-export async function getTickets(userId: number) {
+async function getTickets(userId: number) {
   const enrollment = await enrollmentRepository.findenrollmentByUserId(userId);
   if (!enrollment) {
     throw notFoundError();
@@ -25,7 +25,7 @@ export async function getTickets(userId: number) {
   return ticket;
 }
 
-export async function createTicket(userId: number, ticketTypeId: number) {
+async function createTicket(userId: number, ticketTypeId: number) {
   const enrollment = await enrollmentRepository.findenrollmentByUserId(userId);
   if (!enrollment) {
     throw notFoundError();
