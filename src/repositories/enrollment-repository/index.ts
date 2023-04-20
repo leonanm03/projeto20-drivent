@@ -33,10 +33,8 @@ async function findenrollmentByUserId(userId: number): Promise<Enrollment> {
 export type CreateEnrollmentParams = Omit<Enrollment, 'id' | 'createdAt' | 'updatedAt'>;
 export type UpdateEnrollmentParams = Omit<CreateEnrollmentParams, 'userId'>;
 
-const enrollmentRepository = {
+export const enrollmentRepository = {
   findWithAddressByUserId,
   upsert,
   findenrollmentByUserId,
 };
-
-export default enrollmentRepository;

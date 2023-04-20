@@ -7,8 +7,6 @@ async function create(data: Prisma.SessionUncheckedCreateInput) {
   });
 }
 
-const sessionRepository = {
+export const sessionRepository = {
   create,
 };
-
-export default sessionRepository;

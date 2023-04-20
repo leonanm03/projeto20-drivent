@@ -1,9 +1,7 @@
 import { Payment } from '@prisma/client';
 import { notFoundError, unauthorizedError } from '@/errors';
-import paymentsRepository from '@/repositories/payments-repository';
-import ticketsRepository from '@/repositories/tickets-repository';
 import { CardData } from '@/protocols';
-import enrollmentRepository from '@/repositories/enrollment-repository';
+import { enrollmentRepository, paymentsRepository, ticketsRepository } from '@/repositories';
 
 export async function getPayment(userId: number, ticketId: number) {
   const ticket = await ticketsRepository.findTicketById(ticketId);
@@ -54,6 +52,4 @@ export type PaymentInput = {
   cardData: CardData;
 };
 
-const paymentsService = { getPayment, processPayment };
-
-export default paymentsService;
+export const paymentsService = { getPayment, processPayment };

@@ -3,8 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { invalidCredentialsError } from './errors';
 import { exclude } from '@/utils/prisma-utils';
-import userRepository from '@/repositories/user-repository';
-import sessionRepository from '@/repositories/session-repository';
+import { sessionRepository, userRepository } from '@/repositories';
 
 async function signIn(params: SignInParams): Promise<SignInResult> {
   const { email, password } = params;
@@ -52,9 +51,8 @@ type SignInResult = {
 
 type GetUserOrFailResult = Pick<User, 'id' | 'email' | 'password'>;
 
-const authenticationService = {
+export const authenticationService = {
   signIn,
 };
 
-export default authenticationService;
 export * from './errors';

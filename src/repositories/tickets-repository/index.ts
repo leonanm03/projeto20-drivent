@@ -55,6 +55,4 @@ async function updateTicket(id: number) {
   });
 }
 
-const ticketsRepository = { findMany, findTickets, createTicket, findTicketById, findTypeById, updateTicket };
-
-export default ticketsRepository;
+export const ticketsRepository = { findMany, findTickets, createTicket, findTicketById, findTypeById, updateTicket };

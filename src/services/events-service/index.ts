@@ -1,8 +1,8 @@
 import { Event } from '@prisma/client';
 import dayjs from 'dayjs';
 import { notFoundError } from '@/errors';
-import eventRepository from '@/repositories/event-repository';
 import { exclude } from '@/utils/prisma-utils';
+import { eventRepository } from '@/repositories';
 
 async function getFirstEvent(): Promise<GetFirstEventResult> {
   const event = await eventRepository.findFirst();
@@ -24,9 +24,7 @@ async function isCurrentEventActive(): Promise<boolean> {
   return now.isAfter(eventStartsAt) && now.isBefore(eventEndsAt);
 }
 
-const eventsService = {
+export const eventsService = {
   getFirstEvent,
   isCurrentEventActive,
 };
-
-export default eventsService;

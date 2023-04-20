@@ -3,7 +3,7 @@ import { createUser } from '../factories';
 import { cleanDb } from '../helpers';
 import { init } from '@/app';
 import { prisma } from '@/config';
-import authenticationService, { invalidCredentialsError } from '@/services/authentication-service';
+import { authenticationService, invalidCredentialsError } from '@/services';
 
 beforeAll(async () => {
   await init();

@@ -1,7 +1,6 @@
 import { Ticket, TicketType } from '@prisma/client';
 import { notFoundError } from '@/errors';
-import ticketsRepository from '@/repositories/tickets-repository';
-import enrollmentRepository from '@/repositories/enrollment-repository';
+import { enrollmentRepository, ticketsRepository } from '@/repositories';
 
 async function getTypes(): Promise<TicketType[]> {
   const types = await ticketsRepository.findMany();
@@ -41,6 +40,4 @@ async function createTicket(userId: number, ticketTypeId: number) {
 
 export type ticketTypeIdInput = Pick<Ticket, 'ticketTypeId'>;
 
-const ticketsService = { getTypes, getTickets, createTicket };
-
-export default ticketsService;
+export const ticketsService = { getTypes, getTickets, createTicket };

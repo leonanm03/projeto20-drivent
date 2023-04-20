@@ -13,6 +13,4 @@ async function createPayment({ ticketId, cardIssuer, cardLastDigits, value }: Pa
   return prisma.payment.create({ data: { ticketId, cardIssuer, cardLastDigits, value } });
 }
 
-const paymentsRepository = { findFirst, createPayment };
-
-export default paymentsRepository;
+export const paymentsRepository = { findFirst, createPayment };

@@ -17,8 +17,6 @@ async function upsert(enrollmentId: number, createdAddress: CreateAddressParams,
 export type CreateAddressParams = Omit<Address, 'id' | 'createdAt' | 'updatedAt' | 'enrollmentId'>;
 export type UpdateAddressParams = CreateAddressParams;
 
-const addressRepository = {
+export const addressRepository = {
   upsert,
 };
-
-export default addressRepository;

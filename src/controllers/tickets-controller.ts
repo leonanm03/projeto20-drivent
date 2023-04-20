@@ -1,7 +1,7 @@
 import { NextFunction, Response } from 'express';
 import httpStatus from 'http-status';
 import { AuthenticatedRequest } from '@/middlewares';
-import ticketsService from '@/services/tickets-service';
+import { ticketsService } from '@/services';
 
 export async function getTypes(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   try {

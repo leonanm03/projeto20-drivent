@@ -2,9 +2,9 @@ import faker from '@faker-js/faker';
 import bcrypt from 'bcrypt';
 import { createUser as createUserSeed, createEvent as createEventSeed } from '../factories';
 import { cleanDb } from '../helpers';
-import userService, { duplicatedEmailError } from '@/services/users-service';
 import { prisma } from '@/config';
 import { init } from '@/app';
+import { duplicatedEmailError, usersService } from '@/services';
 
 beforeAll(async () => {
   await init();
@@ -17,7 +17,7 @@ describe('createUser', () => {
     await createEventSeed();
 
     try {
-      await userService.createUser({
+      await usersService.createUser({
         email: existingUser.email,
         password: faker.internet.password(6),
       });
@@ -28,7 +28,7 @@ describe('createUser', () => {
   });
 
   it('should create user when given email is unique', async () => {
-    const user = await userService.createUser({
+    const user = await usersService.createUser({
       email: faker.internet.email(),
       password: faker.internet.password(6),
     });
@@ -48,7 +48,7 @@ describe('createUser', () => {
 
   it('should hash user password', async () => {
     const rawPassword = faker.internet.password(6);
-    const user = await userService.createUser({
+    const user = await usersService.createUser({
       email: faker.internet.email(),
       password: rawPassword,
     });
