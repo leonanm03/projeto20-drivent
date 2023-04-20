@@ -4,4 +4,8 @@ async function getHotels() {
   return prisma.hotel.findMany();
 }
 
-export const hotelsRepository = { getHotels };
+async function getHotelbyId(id: number) {
+  return prisma.hotel.findUnique({ where: { id } });
+}
+
+export const hotelsRepository = { getHotels, getHotelbyId };
