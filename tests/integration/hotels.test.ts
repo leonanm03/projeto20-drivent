@@ -180,7 +180,7 @@ describe('GET /hotels/:id', () => {
       expect(response.status).toBe(httpStatus.NOT_FOUND);
     });
 
-    it(`should respond with status 200 and hotel array with hotel`, async () => {
+    it(`should respond with status 200 and hotel data`, async () => {
       const user = await createUser();
       const token = await generateValidToken(user);
       const enrollment = await createEnrollmentWithAddress(user);
