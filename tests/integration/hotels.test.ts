@@ -13,7 +13,6 @@ import {
   createTicketType,
   createUser,
 } from '../factories';
-
 import { createHotel, createRoom } from '../factories/hotels-factory';
 import app, { init } from '@/app';
 
