@@ -6,3 +6,4 @@ export * from './enrollment-repository';
 export * from './tickets-repository';
 export * from './payments-repository';
 export * from './hotels-repository';
+export * from './bookings-repository';
