@@ -22,7 +22,7 @@ export default function enrollmentAndTicketValidation(
   it('should respond with status 404 if user dosent have enrollment yet', async () => {
     const token = await generateValidToken();
 
-    const response = await server.get(`${route}`).set('Authorization', `Bearer ${token}`);
+    const response = await server[verb](`${route}`).send(body).set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(httpStatus.NOT_FOUND);
   });
@@ -32,7 +32,7 @@ export default function enrollmentAndTicketValidation(
     const token = await generateValidToken(user);
     await createEnrollmentWithAddress(user);
 
-    const response = await server.get(`${route}`).set('Authorization', `Bearer ${token}`);
+    const response = await server[verb](`${route}`).send(body).set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(httpStatus.NOT_FOUND);
   });
@@ -44,7 +44,7 @@ export default function enrollmentAndTicketValidation(
     const ticketType = await createTicketType();
     await createTicket(enrollment.id, ticketType.id, TicketStatus.RESERVED);
 
-    const response = await server.get(`${route}`).set('Authorization', `Bearer ${token}`);
+    const response = await server[verb](`${route}`).send(body).set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(httpStatus.PAYMENT_REQUIRED);
   });
@@ -56,7 +56,7 @@ export default function enrollmentAndTicketValidation(
     const ticketType = await createRemoteTicketType();
     await createTicket(enrollment.id, ticketType.id, TicketStatus.PAID);
 
-    const response = await server.get(`${route}`).set('Authorization', `Bearer ${token}`);
+    const response = await server[verb](`${route}`).send(body).set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(httpStatus.PAYMENT_REQUIRED);
   });
@@ -67,7 +67,7 @@ export default function enrollmentAndTicketValidation(
     const ticketType = await createNoHotelTicketType();
     await createTicket(enrollment.id, ticketType.id, TicketStatus.PAID);
 
-    const response = await server.get(`${route}`).set('Authorization', `Bearer ${token}`);
+    const response = await server[verb](`${route}`).send(body).set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(httpStatus.PAYMENT_REQUIRED);
   });
