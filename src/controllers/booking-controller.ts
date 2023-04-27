@@ -23,3 +23,15 @@ export async function getBooking(req: AuthenticatedRequest, res: Response, next:
     next(error);
   }
 }
+
+export async function updateBooking(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  const { userId } = req;
+  const { bookingId } = req.params as { bookingId: string };
+  const { roomId } = req.body as { roomId: number };
+  try {
+    const { id } = await bookingsService.updateBooking(userId, parseInt(bookingId), roomId);
+    return res.status(httpStatus.OK).send({ bookingId: id });
+  } catch (error) {
+    next(error);
+  }
+}
