@@ -115,6 +115,7 @@ describe('GET /booking', () => {
   invalidTokenVerification('/booking', 'get');
   describe('when token is valid', () => {
     enrollmentAndTicketValidation('/booking', 'get', httpStatus.FORBIDDEN);
+
     it('should respond with status 404 when booking is not found', async () => {
       const user = await createUser();
       const token = await generateValidToken(user);
@@ -239,6 +240,26 @@ describe('Put /booking/:bookingId', () => {
       const response = await server.put('/booking/1').send({ roomId: room.id }).set('Authorization', `Bearer ${token}`);
 
       expect(response.status).toBe(httpStatus.FORBIDDEN);
+    });
+
+    it('should respond with status 200 if room is capacity is full', async () => {
+      const user = await createUser();
+      const token = await generateValidToken(user);
+      const enrollment = await createEnrollmentWithAddress(user);
+      const ticketType = await createHotelTicketType();
+      await createTicket(enrollment.id, ticketType.id, TicketStatus.PAID);
+      const hotel = await createHotel();
+      const room = await createRoomWithLimit(hotel.id, 1);
+      const booking = await createBooking(user.id, room.id);
+      const newRoom = await createRoomWithLimit(hotel.id, 1);
+
+      const response = await server
+        .put(`/booking/${booking.id}`)
+        .send({ roomId: newRoom.id })
+        .set('Authorization', `Bearer ${token}`);
+
+      expect(response.status).toBe(httpStatus.OK);
+      expect(response.body).toEqual({ bookingId: booking.id });
     });
   });
 });
