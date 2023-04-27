@@ -26,8 +26,18 @@ async function postBooking(userId: number, roomId: number) {
   return booking;
 }
 
+async function getBooking(userId: number) {
+  await enrollmentAndTicketCheck(userId);
+
+  const booking = await bookingsRepository.getBooking(userId);
+  if (!booking) throw notFoundError();
+
+  return booking;
+}
+
 export type RoomIdParam = Pick<Booking, 'roomId'>;
 
 export const bookingsService = {
   postBooking,
+  getBooking,
 };
