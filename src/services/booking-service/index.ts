@@ -42,10 +42,12 @@ async function updateBooking(userId: number, bookingId: number, roomId: number) 
   if (!room) throw notFoundError();
   if (room.capacity <= room.Booking.length) throw forbiddenError();
 
-  const booking = await bookingRepository.updateBooking(userId, bookingId, roomId);
-  if (!booking) throw notFoundError();
+  const booking = await bookingRepository.getUserBooking(userId, bookingId);
+  if (!booking) throw forbiddenError();
 
-  return booking;
+  const newBooking = await bookingRepository.updateBooking(userId, bookingId, roomId);
+
+  return newBooking;
 }
 
 export type RoomIdParam = Pick<Booking, 'roomId'>;

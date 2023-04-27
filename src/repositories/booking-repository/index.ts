@@ -9,8 +9,12 @@ async function getBooking(userId: number): Promise<Booking & { Room: Room }> {
   return prisma.booking.findFirst({ where: { userId }, include: { Room: true } });
 }
 
+async function getUserBooking(userId: number, bookingId: number): Promise<Booking> {
+  return prisma.booking.findFirst({ where: { userId, id: bookingId } });
+}
+
 async function updateBooking(userId: number, bookingId: number, roomId: number): Promise<Booking> {
   return prisma.booking.update({ where: { id: bookingId }, data: { userId, roomId } });
 }
 
-export const bookingRepository = { postBooking, getBooking, updateBooking };
+export const bookingRepository = { postBooking, getBooking, updateBooking, getUserBooking };
