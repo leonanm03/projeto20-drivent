@@ -17,6 +17,7 @@ const server = supertest(app);
 export default function enrollmentAndTicketValidation(
   route: string,
   verb: 'get' | 'post' | 'put' | 'delete',
+  errorCode: number,
   body?: { roomId: number },
 ) {
   it('should respond with status 404 if user dosent have enrollment yet', async () => {
@@ -37,7 +38,7 @@ export default function enrollmentAndTicketValidation(
     expect(response.status).toBe(httpStatus.NOT_FOUND);
   });
 
-  it(`should respond with status 402 if user's ticket is not paid`, async () => {
+  it(`should respond with status ${errorCode} if user's ticket is not paid`, async () => {
     const user = await createUser();
     const token = await generateValidToken(user);
     const enrollment = await createEnrollmentWithAddress(user);
@@ -46,10 +47,10 @@ export default function enrollmentAndTicketValidation(
 
     const response = await server[verb](`${route}`).send(body).set('Authorization', `Bearer ${token}`);
 
-    expect(response.status).toBe(httpStatus.PAYMENT_REQUIRED);
+    expect(response.status).toBe(errorCode);
   });
 
-  it(`should respond with status 402 if user's ticket is remote`, async () => {
+  it(`should respond with status ${errorCode} if user's ticket is remote`, async () => {
     const user = await createUser();
     const token = await generateValidToken(user);
     const enrollment = await createEnrollmentWithAddress(user);
@@ -58,9 +59,9 @@ export default function enrollmentAndTicketValidation(
 
     const response = await server[verb](`${route}`).send(body).set('Authorization', `Bearer ${token}`);
 
-    expect(response.status).toBe(httpStatus.PAYMENT_REQUIRED);
+    expect(response.status).toBe(errorCode);
   });
-  it(`should respond with status 402 if user's ticket doesnt't includes hotel`, async () => {
+  it(`should respond with status ${errorCode} if user's ticket doesnt't includes hotel`, async () => {
     const user = await createUser();
     const token = await generateValidToken(user);
     const enrollment = await createEnrollmentWithAddress(user);
@@ -69,6 +70,6 @@ export default function enrollmentAndTicketValidation(
 
     const response = await server[verb](`${route}`).send(body).set('Authorization', `Bearer ${token}`);
 
-    expect(response.status).toBe(httpStatus.PAYMENT_REQUIRED);
+    expect(response.status).toBe(errorCode);
   });
 }

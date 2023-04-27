@@ -1,5 +1,5 @@
 import { Booking } from '.prisma/client';
-import { forbiddenError, notFoundError, paymentRequiredError } from '@/errors';
+import { forbiddenError, notFoundError } from '@/errors';
 import { bookingsRepository, enrollmentRepository, hotelsRepository, ticketsRepository } from '@/repositories';
 
 async function enrollmentAndTicketCheck(userId: number) {
@@ -10,7 +10,7 @@ async function enrollmentAndTicketCheck(userId: number) {
   if (!ticket) throw notFoundError();
 
   if (ticket.status !== 'PAID' || ticket.TicketType.isRemote || !ticket.TicketType.includesHotel)
-    throw paymentRequiredError();
+    throw forbiddenError();
 
   return;
 }
@@ -19,6 +19,7 @@ async function postBooking(userId: number, roomId: number) {
   await enrollmentAndTicketCheck(userId);
 
   const room = await hotelsRepository.getRoomWithBookings(roomId);
+  if (!room) throw notFoundError();
   if (room.capacity <= room.Booking.length) throw forbiddenError();
 
   const booking = await bookingsRepository.postBooking(userId, roomId);

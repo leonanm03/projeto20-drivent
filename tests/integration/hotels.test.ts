@@ -23,7 +23,7 @@ describe('GET /hotels', () => {
   invalidTokenVerification('/hotels', 'get');
 
   describe('when token is valid', () => {
-    enrollmentAndTicketValidation('/hotels', 'get');
+    enrollmentAndTicketValidation('/hotels', 'get', httpStatus.PAYMENT_REQUIRED);
 
     it(`should respond with status 404 there is no hotels`, async () => {
       const user = await createUser();
@@ -67,7 +67,7 @@ describe('GET /hotels/:id', () => {
   invalidTokenVerification('/hotels/1', 'get');
 
   describe('when token is valid', () => {
-    enrollmentAndTicketValidation('/hotels/1', 'get');
+    enrollmentAndTicketValidation('/hotels/1', 'get', httpStatus.PAYMENT_REQUIRED);
 
     it(`should respond with status 400 if invalid id is given`, async () => {
       const user = await createUser();
