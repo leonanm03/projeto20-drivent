@@ -1,6 +1,6 @@
 import { Booking } from '.prisma/client';
 import { forbiddenError, notFoundError } from '@/errors';
-import { bookingsRepository, enrollmentRepository, hotelsRepository, ticketsRepository } from '@/repositories';
+import { bookingRepository, enrollmentRepository, hotelsRepository, ticketsRepository } from '@/repositories';
 
 async function enrollmentAndTicketCheck(userId: number) {
   const enrollment = await enrollmentRepository.findenrollmentByUserId(userId);
@@ -22,14 +22,14 @@ async function postBooking(userId: number, roomId: number) {
   if (!room) throw notFoundError();
   if (room.capacity <= room.Booking.length) throw forbiddenError();
 
-  const booking = await bookingsRepository.postBooking(userId, roomId);
+  const booking = await bookingRepository.postBooking(userId, roomId);
   return booking;
 }
 
 async function getBooking(userId: number) {
   await enrollmentAndTicketCheck(userId);
 
-  const booking = await bookingsRepository.getBooking(userId);
+  const booking = await bookingRepository.getBooking(userId);
   if (!booking) throw notFoundError();
 
   return booking;
