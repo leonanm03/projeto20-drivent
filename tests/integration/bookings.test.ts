@@ -110,3 +110,40 @@ describe('POST /booking', () => {
     });
   });
 });
+
+describe('GET /booking', () => {
+  invalidTokenVerification('/booking', 'get');
+  describe('when token is valid', () => {
+    enrollmentAndTicketValidation('/booking', 'get', httpStatus.FORBIDDEN);
+    it('should respond with status 404 when booking is not found', async () => {
+      const user = await createUser();
+      const token = await generateValidToken(user);
+      const enrollment = await createEnrollmentWithAddress(user);
+      const ticketType = await createHotelTicketType();
+      await createTicket(enrollment.id, ticketType.id, TicketStatus.PAID);
+
+      const response = await server.get(`/booking`).set('Authorization', `Bearer ${token}`);
+
+      expect(response.status).toBe(httpStatus.NOT_FOUND);
+    });
+
+    it('should respond with status 200 and booking when booking is found', async () => {
+      const user = await createUser();
+      const token = await generateValidToken(user);
+      const enrollment = await createEnrollmentWithAddress(user);
+      const ticketType = await createHotelTicketType();
+      await createTicket(enrollment.id, ticketType.id, TicketStatus.PAID);
+      const hotel = await createHotel();
+      const room = await createRoom(hotel.id);
+      const booking = await createBooking(user.id, room.id);
+
+      const response = await server.get(`/booking`).set('Authorization', `Bearer ${token}`);
+
+      expect(response.status).toBe(httpStatus.OK);
+      expect(response.body).toEqual({
+        id: booking.id,
+        Room: { ...room, createdAt: room.createdAt.toISOString(), updatedAt: room.updatedAt.toISOString() },
+      });
+    });
+  });
+});
