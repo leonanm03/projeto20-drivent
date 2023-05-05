@@ -31,10 +31,6 @@ async function createTicket(userId: number, ticketTypeId: number) {
   }
   const ticket = await ticketsRepository.createTicket(enrollment.id, ticketTypeId);
 
-  if (!ticket) {
-    throw notFoundError();
-  }
-
   return ticket;
 }
 

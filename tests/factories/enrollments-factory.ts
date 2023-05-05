@@ -41,3 +41,16 @@ export function createhAddressWithCEP() {
     uf: 'SP',
   };
 }
+
+export function createFakeEnrollment() {
+  return {
+    id: faker.datatype.number(),
+    name: faker.name.findName(),
+    cpf: generateCPF(),
+    birthday: faker.date.past(),
+    phone: faker.phone.phoneNumber('(##) 9####-####'),
+    userId: faker.datatype.number(),
+    createdAt: faker.date.past(),
+    updatedAt: faker.date.past(),
+  };
+}

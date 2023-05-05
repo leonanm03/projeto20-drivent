@@ -57,4 +57,5 @@ export const bookingsService = {
   postBooking,
   getBooking,
   updateBooking,
+  enrollmentAndTicketCheck,
 };

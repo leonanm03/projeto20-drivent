@@ -76,3 +76,27 @@ export async function createTicketTypeWithHotel() {
     },
   });
 }
+
+export function createFakeTicket({
+  status = 'PAID' as 'PAID' | 'RESERVED',
+  isRemote = false,
+  includesHotel = true,
+} = {}) {
+  return {
+    id: faker.datatype.number(),
+    ticketTypeId: faker.datatype.number(),
+    enrollmentId: faker.datatype.number(),
+    status,
+    createdAt: faker.datatype.datetime(),
+    updatedAt: faker.datatype.datetime(),
+    TicketType: {
+      id: faker.datatype.number(),
+      name: faker.name.findName(),
+      price: faker.datatype.number(),
+      isRemote,
+      includesHotel,
+      createdAt: faker.datatype.datetime(),
+      updatedAt: faker.datatype.datetime(),
+    },
+  };
+}

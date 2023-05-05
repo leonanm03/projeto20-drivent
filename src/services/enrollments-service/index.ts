@@ -79,4 +79,5 @@ export const enrollmentsService = {
   getOneWithAddressByUserId,
   createOrUpdateEnrollmentWithAddress,
   getAddressFromCEP,
+  getFirstAddress,
 };
